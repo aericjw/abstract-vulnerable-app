@@ -1,4 +1,10 @@
-const db = require("./db"); // get database
+const sqlite3 = require('sqlite3').verbose()
+const db = new sqlite3.Database("bank.sqlite", callback => { // bind database to variable
+    if (callback){
+        console.error(callback.message)
+    }
+});
+
 const accounts = [
     [1, 1, "Savings", 100000000],
     [2, 1, "Checking", 100000],
