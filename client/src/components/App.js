@@ -1,26 +1,33 @@
+import React from 'react'
 import '../css/App.css';
 import SQLInjection from './sql_injection';
-import {sendServerRequest, getOriginalServerPort} from '../utils/rest_api'
+import {sendServerRequestGET, sendServerRequestPOST, getOriginalServerPort} from '../utils/rest_api'
+import autobind from 'react-autobind';
 
-function request(){ // Send HTTP GET to mimic SQL Injection that returns the first account
-  let requestBody = {
-    "requestType": 'sql_inject'
-  };
-  sendServerRequest(requestBody, getOriginalServerPort()).then(
-    (res) => console.log(res.data)
-  );
-}
+class App extends React.Component {
+  constructor(props){
+    super(props)
+    autobind(this)
+  }
 
-function App() {
+  sql_request(){ // Send HTTP GET to mimic SQL Injection that returns the first account
+    let requestBody = {
+      "requestType": 'sql_inject'
+    };
+    sendServerRequestGET(requestBody, getOriginalServerPort()).then(
+      (res) => console.log(res.data)
+    );
+  }
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <SQLInjection onClick={request}/>
-      </header>
-    </div>
-  );
-  
+  render(){
+    return (
+      <div className="App">
+        <header className="App-header">
+          <SQLInjection onClick={this.sql_request}/>
+        </header>
+      </div>
+    );
+  }
 }
 
 export default App;
