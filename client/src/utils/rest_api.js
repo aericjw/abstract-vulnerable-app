@@ -12,6 +12,12 @@ export async function sendServerRequestPOST(requestBody, serverPort=getOriginalS
     catch(error) { return null; }
 }
 
+export async function sendServerRequestPUT(requestBody, serverPort=getOriginalServerPort()) {
+    console.log(serverPort)
+    try { return await axios.put(`${serverPort}/api/${requestBody.requestType}`, JSON.stringify(requestBody)) }
+    catch(error) { return null; }
+}
+
 export function getOriginalServerPort() {
     const serverProtocol = window.location.protocol;
     const serverHost = window.location.hostname;

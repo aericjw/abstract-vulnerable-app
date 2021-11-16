@@ -9,7 +9,7 @@ class SQLInjection extends React.Component{
 
     render() {
         return(
-            <button onClick={this.props.onClick}>{'SQL Injection'}</button>
+            <button onClick={this.props.onClick}>SQL Injection</button>
         )
     }
 }
