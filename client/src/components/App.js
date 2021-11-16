@@ -14,19 +14,25 @@ class App extends React.Component {
     this.state = {
       pageType: "attack",
       attackType: "",
+      accountNumber: -1,
       amountStolen: 0,
-      timeLeft: 0, 
+      timeLeft: 10, 
     }
   }
+
   // Attack Methods
+
   sql_request(){ // Send HTTP GET to mimic SQL Injection that returns the first account
     let requestBody = {
       "requestType": "sql_inject"
     };
     sendServerRequestGET(requestBody, getOriginalServerPort()).then(
-      (res) => console.log(res.data)
+      (res) => {
+        console.log(res.data)
+        this.setState({pageType: "options", attackType: "SQL", accountNumber: res.data.account})
+      }
     );
-    this.setState({pageType: "options", attackType: "SQL"})
+    
   }
 
   // Option Methods
@@ -39,11 +45,12 @@ class App extends React.Component {
     let requestBody = {
       "requestType": "steal",
       "attackType": this.state.attackType,
+      "account": this.state.accountNumber,
     };
     sendServerRequestPUT(requestBody, getOriginalServerPort()).then(
       (res) => {
         console.log(res.data)
-        this.setState({amountStolen: res.data.balance})
+        this.setState({amountStolen: this.state.amountStolen + res.data.currentAccount.balance, accountNumber: res.data.nextAccount.account}, () => console.log(this.state))
       }
     )
   }
@@ -52,10 +59,12 @@ class App extends React.Component {
     let requestBody = {
       "requestType": "next",
       "attackType": this.state.attackType,
+      "account": this.state.accountNumber,
     }
-    sendServerRequestGET(requestBody, getOriginalServerPort()).then(
+    sendServerRequestPUT(requestBody, getOriginalServerPort()).then(
       (res) => {
         console.log(res.data)
+        this.setState({accountNumber: res.data.nextAccount.account}, () => console.log(this.state))
       }
     )
   }
@@ -75,8 +84,8 @@ class App extends React.Component {
     return (
       <span>
         <Steal onClick={this.steal}/>
-        <Logout onClick={this.logout}/>
         <Next onClick={this.next}/>
+        <Logout onClick={this.logout}/>
       </span>
     )
   }
