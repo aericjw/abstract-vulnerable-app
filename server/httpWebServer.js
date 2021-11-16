@@ -27,6 +27,18 @@ app.get('/api/sql_inject', (req, res) => {
     });
 });
 
+app.get('/api/xss', (req, res) => {
+    randomIndex = Math.floor(Math.random() * 17)
+    db.serialize(() => {
+        db.all(`SELECT * FROM accounts`, (err, results) => {
+            if(err){
+                return console.error(err.message);
+            }
+            console.log(JSON.stringify(results[randomIndex]))
+            res.send(JSON.stringify(results[randomIndex]))
+        });
+    });
+})
 // Option Responses
 
 app.put('/api/steal', (req, res) => {
@@ -49,6 +61,13 @@ app.put('/api/steal', (req, res) => {
                 response = {
                     "currentAccount": results[account-1],
                     "nextAccount": results[account]
+                }
+            }
+            else if (attackType === "XSS"){
+                randomIndex = Math.floor(Math.random() * 17)
+                response = {
+                    "currentAccount": results[account-1],
+                    "nextAccount": results[randomIndex]
                 }
             }
             console.log(JSON.stringify(response))
@@ -76,6 +95,12 @@ app.put('/api/next', (req, res) => {
             if (attackType === "SQL"){
                 response = {
                     "nextAccount": results[account]
+                }
+            }
+            else if (attackType === "XSS"){
+                randomIndex = Math.floor(Math.random() * 17)
+                response = {
+                    "nextAccount": results[randomIndex]
                 }
             }
             console.log(JSON.stringify(response))
