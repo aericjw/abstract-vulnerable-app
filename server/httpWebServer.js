@@ -6,7 +6,7 @@ port = process.env.PORT || 5001;
 app.use(express.urlencoded({extended: false}));
 app.use(express.json())
 
-const sqlite3 = require('sqlite3')
+const sqlite3 = require('sqlite3').verbose()
 const db = new sqlite3.Database(process.cwd() + "/server/bank.sqlite", callback => { // bind database to variable
     if (callback){
         console.error(callback.message)
