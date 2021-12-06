@@ -54,19 +54,19 @@ app.put('/api/steal', (req, res) => {
                 return console.error(err.message);
             }
             let response = {}
-            if (account > results.length){
-                account = 1
+            if (account >= results.length){
+                account = 0
             }
             if (attackType === "SQL"){
                 response = {
-                    "currentAccount": results[account-1],
+                    "currentAccount": results[account],
                     "nextAccount": results[account]
                 }
             }
             else if (attackType === "XSS"){
                 randomIndex = Math.floor(Math.random() * 17)
                 response = {
-                    "currentAccount": results[account-1],
+                    "currentAccount": results[account],
                     "nextAccount": results[randomIndex]
                 }
             }

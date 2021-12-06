@@ -1,10 +1,5 @@
 import React from 'react'
-import '../css/App.css';
-import SQLInjection from './sql_injection';
-import XSS from './xss';
-import Logout from './logout';
-import Steal from './steal';
-import Next from './next';
+import DefaultButton from './defaultButton';
 import {sendServerRequestGET, sendServerRequestPOST, sendServerRequestPUT, getOriginalServerPort} from '../utils/rest_api'
 import autobind from 'react-autobind';
 
@@ -115,28 +110,31 @@ class App extends React.Component {
   render_attacks(){
     return (
       <>
-        <h1>{"How do you want to attack?"}</h1>
-        <span>
-          <SQLInjection onClick={this.sql_request}/>
-          <XSS onClick={this.xss}/>
-        </span>
+        <h1 className="pb-2">{"How do you want to attack?"}</h1>
+        <div className="grid grid-rows-1 grid-flow-col grid-cols-2 gap-2">
+            <DefaultButton onClick={this.sql_request}>SQL Injection</DefaultButton>
+            <DefaultButton onClick={this.xss}>XSS Attack</DefaultButton>
+        </div>
       </>
     )
   }
 
   render_options(){
     return (
-      <>
-        <h1>{"Amount Stolen: $" + this.state.amountStolen}</h1>
-        <h1>{"Account Number: " + this.state.accountNumber}</h1>
-        <h1>{"Balance: $" + this.state.amountToSteal}</h1>
-        <h1>{"Time Left: " + this.state.timeLeft + " mins"}</h1>
-        <span>
-          <Steal onClick={this.steal}/>
-          <Next onClick={this.next}/>
-          <Logout onClick={this.logout}/>
-        </span>
-      </>
+      <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-flow-row grid-rows-3 grid-cols-1 gap-2">
+          <DefaultButton onClick={this.steal}>Withdraw</DefaultButton>
+          <DefaultButton onClick={this.next}>Next</DefaultButton>
+          <DefaultButton onClick={this.logout}>Logout</DefaultButton>
+        </div>
+        <div className="col-span-2">
+          <div className="grid grid-flow-row grid-rows-3 grid-cols-1">
+            <p className="p-2 text-left text-xl text-white font-medium bg-black rounded-t-xl">{"Account #" + this.state.accountNumber}</p>
+            <p className="p-2 text-left text-lg font-medium bg-white">{"Balance:"}</p>
+            <p className="p-2 text-right text-2xl font-bold bg-white rounded-b-xl">{"$" + this.state.amountToSteal}</p>
+          </div>
+        </div>
+      </div>
     )
   }
 
@@ -149,13 +147,41 @@ class App extends React.Component {
     }
   }
 
+  render_title(){
+    return (
+      <div className="p-2 bg-green-400 text-center text-black rounded-t-xl">
+        <p>Vulnerable Banking App</p>
+      </div>
+    )
+  }
+
+  render_stats(){
+    return (
+      <>
+        <div className="p-2 bg-red-400 text-center text-black rounded-t-xl">
+          <p>Attack Stats</p>
+        </div>
+        <div className="p-2 bg-gray-300 text-center text-black rounded-b-xl">
+          <p>{"Amount Stolen: " + this.state.amountStolen}</p>
+          <p>{"Time Left: " + this.state.timeLeft}</p>
+        </div>
+      </>
+    )
+  }
+
   render(){
     return (
-      <div className="App">
-        <header className="App-header">
+      <>
+        <div className="pt-8 container mx-auto text-center">
+          {this.render_title()}
+        </div>
+        <div className="p-2 container mx-auto bg-gray-300 rounded-b-xl text-center">
           {this.page_handler()}
-        </header>
-      </div>
+        </div>
+        <div className="pt-8 container mx-auto text-center">
+          {this.render_stats()}
+        </div>
+      </>
     );
   }
 }

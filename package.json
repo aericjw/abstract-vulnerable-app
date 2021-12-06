@@ -9,6 +9,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "dependencies": {
+    "@craco/craco": "^6.4.2",
     "axios": "^0.24.0",
     "body-parser": "^1.19.0",
     "concurrently": "^6.4.0",
@@ -17,6 +18,9 @@
     "sqlite3": "^5.0.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "autoprefixer": "^9.8.8",
+    "nodemon": "^2.0.15",
+    "postcss": "^7.0.39",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
   }
 }
