@@ -1,11 +1,5 @@
 import React from 'react'
-//import '../css/App.css';
 import DefaultButton from './defaultButton';
-import SQLInjection from './sql_injection';
-import XSS from './xss';
-import Logout from './logout';
-import Steal from './steal';
-import Next from './next';
 import {sendServerRequestGET, sendServerRequestPOST, sendServerRequestPUT, getOriginalServerPort} from '../utils/rest_api'
 import autobind from 'react-autobind';
 
