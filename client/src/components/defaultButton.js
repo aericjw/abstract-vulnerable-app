@@ -9,9 +9,16 @@ class DefaultButton extends React.Component{
     }
 
     render(){
-        return(
-            <button className="p-2 rounded-xl bg-white"onClick={this.props.onClick}>{this.props.children}</button>
-        )
+        if(this.props.disabled === true){
+            return(
+                <button className="p-2 rounded-xl bg-white bg-opacity-25" disabled={this.props.disabled} onClick={this.props.onClick}>{this.props.children}</button>
+            ) 
+        }
+        else{
+            return(
+                <button className="p-2 rounded-xl bg-white" disabled={this.props.disabled} onClick={this.props.onClick}>{this.props.children}</button>
+            )
+        }
     }
 }
 

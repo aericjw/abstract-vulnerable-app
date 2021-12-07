@@ -58,14 +58,19 @@ class App extends React.Component {
   // Option Methods
 
   logout(){ // Send update to server that we are logging out and go back to first page
-    this.setState({
-      pageType: "attack",
-      attackType: "",
-      accountNumber: -1,
-      amountStolen: 0,
-      amountToSteal: 0,
-      timeLeft: 10, 
-    })
+    if (this.state.pageType === "zero" || (this.state.timeLeft > 0 && this.state.pageType === "options")){
+      this.setState({pageType: "success"})
+    }
+    else {
+      this.setState({
+        pageType: "attack",
+        attackType: "",
+        accountNumber: -1,
+        amountStolen: 0,
+        amountToSteal: 0,
+        timeLeft: 10, 
+      })
+    }
   }
 
   steal(){
@@ -82,7 +87,11 @@ class App extends React.Component {
           accountNumber: res.data.nextAccount.account, 
           timeLeft: this.state.timeLeft - 2, 
           amountToSteal: res.data.nextAccount.balance},
-          () => console.log(this.state))
+          () => {
+            console.log(this.state)
+            this.hasTimeExpired()
+            }
+        )
       }
     )
   }
@@ -100,9 +109,24 @@ class App extends React.Component {
           accountNumber: res.data.nextAccount.account,
           timeLeft: this.state.timeLeft - 1,
           amountToSteal: res.data.nextAccount.balance,
-        }, () => console.log(this.state))
+        }, () => {
+          console.log(this.state)
+          this.hasTimeExpired()
+          }
+        )
       }
     )
+  }
+
+  hasTimeExpired(){
+    if (this.state.timeLeft < 0){
+      console.log("Attacker was caught")
+      this.setState({pageType: "failure", timeLeft: 0})
+    }
+    else if(this.state.timeLeft === 0){
+      console.log("Logout?")
+      this.setState({pageType: "zero"})
+    }
   }
 
   // Button render methods
@@ -119,12 +143,12 @@ class App extends React.Component {
     )
   }
 
-  render_options(){
+  render_options(disabled){
     return (
       <div className="grid grid-cols-3 gap-2">
         <div className="grid grid-flow-row grid-rows-3 grid-cols-1 gap-2">
-          <DefaultButton onClick={this.steal}>Withdraw</DefaultButton>
-          <DefaultButton onClick={this.next}>Next</DefaultButton>
+          <DefaultButton disabled={disabled} onClick={this.steal}>Withdraw</DefaultButton>
+          <DefaultButton disabled={disabled} onClick={this.next}>Next</DefaultButton>
           <DefaultButton onClick={this.logout}>Logout</DefaultButton>
         </div>
         <div className="col-span-2">
@@ -143,7 +167,26 @@ class App extends React.Component {
       return this.render_attacks()
     }
     else if (this.state.pageType === "options"){
-      return this.render_options()
+      return this.render_options(false)
+    }
+    else if (this.state.pageType === "zero"){
+      return this.render_options(true)
+    }
+    else if (this.state.pageType === "failure"){
+      return (
+        <div className="p-8 text-center">
+          <p className="p-2">You were caught!</p>
+          <DefaultButton onClick={() => this.logout()}>Start Over</DefaultButton>
+        </div>
+      )
+    }
+    else if (this.state.pageType === "success"){
+      return (
+        <div className="p-8 text-center">
+          <p className="p-2">Congrats! You escaped successfully</p>
+          <DefaultButton onClick={() => this.logout()}>Start Over</DefaultButton>
+        </div>
+      )
     }
   }
 
@@ -162,8 +205,8 @@ class App extends React.Component {
           <p>Attack Stats</p>
         </div>
         <div className="p-2 bg-gray-300 text-center text-black rounded-b-xl">
-          <p>{"Amount Stolen: " + this.state.amountStolen}</p>
-          <p>{"Time Left: " + this.state.timeLeft}</p>
+          <p>{"Amount Stolen: $" + this.state.amountStolen}</p>
+          <p>{"Time Left: " + this.state.timeLeft + " mins"}</p>
         </div>
       </>
     )
