@@ -6,8 +6,8 @@ React Client \
 Node.js Server
 
 ## To-Do List:
-- [ ] End game when run out of time
-- [ ] Make app look better with a CSS framework
+- [x] End game when run out of time
+- [x] Make app look better with a CSS framework
 - [ ] Add settings to change probability
 - [ ] Add instructions that displays at the beginning
 
