@@ -13,7 +13,9 @@ class App extends React.Component {
       accountNumber: -1,
       amountStolen: 0,
       amountToSteal: 0,
-      timeLeft: 10, 
+      timeLeft: 10,
+      chanceDetect: 0,
+      isDetected: false,
     }
   }
 
@@ -31,7 +33,8 @@ class App extends React.Component {
           attackType: "SQL",
           accountNumber: res.data.account,
           amountToSteal: res.data.balance, 
-          timeLeft: this.state.timeLeft - 3
+          timeLeft: this.state.timeLeft - 3,
+          chanceDetect: this.state.chanceDetect + 5
         })
       }
     );
@@ -49,7 +52,8 @@ class App extends React.Component {
           attackType: "XSS",
           accountNumber: res.data.account,
           amountToSteal: res.data.balance, 
-          timeLeft: this.state.timeLeft - 3
+          timeLeft: this.state.timeLeft - 3,
+          chanceDetect: this.state.chanceDetect + 5
         })
       }
     );
@@ -68,7 +72,8 @@ class App extends React.Component {
         accountNumber: -1,
         amountStolen: 0,
         amountToSteal: 0,
-        timeLeft: 10, 
+        timeLeft: 10,
+        chanceDetect: 0,
       })
     }
   }
@@ -85,11 +90,13 @@ class App extends React.Component {
         this.setState({
           amountStolen: this.state.amountStolen + res.data.currentAccount.balance,
           accountNumber: res.data.nextAccount.account, 
-          timeLeft: this.state.timeLeft - 2, 
+          timeLeft: this.state.timeLeft - 2,
+          chanceDetect: this.state.chanceDetect + 10,
           amountToSteal: res.data.nextAccount.balance},
           () => {
             console.log(this.state)
             this.hasTimeExpired()
+            this.hasBeenDetected()
             }
         )
       }
@@ -126,6 +133,20 @@ class App extends React.Component {
     else if(this.state.timeLeft === 0){
       console.log("Logout?")
       this.setState({pageType: "zero"})
+    }
+  }
+
+  hasBeenDetected(){
+    if (this.state.chanceDetect >= 100){
+      this.setState({isDetected: true})
+    }
+    else {
+      this.setState({isDetected: Math.random() < (this.state.chanceDetect / 100)})
+    }
+
+    if (this.state.isDetected) {
+      console.log("Attacker was caught")
+      this.setState({pageType: "failure", chanceDetect: 100})
     }
   }
 
@@ -207,6 +228,7 @@ class App extends React.Component {
         <div className="p-2 bg-gray-300 text-center text-black rounded-b-xl">
           <p>{"Amount Stolen: $" + this.state.amountStolen}</p>
           <p>{"Time Left: " + this.state.timeLeft + " mins"}</p>
+          <p>{"Chance of Detection: " + this.state.chanceDetect + "%"}</p>
         </div>
       </>
     )
