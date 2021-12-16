@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/abstract-vulnerable-app/static/css/main.5e117aac.chunk.css",
+    "main.js": "/abstract-vulnerable-app/static/js/main.2a79fade.chunk.js",
+    "main.js.map": "/abstract-vulnerable-app/static/js/main.2a79fade.chunk.js.map",
+    "runtime-main.js": "/abstract-vulnerable-app/static/js/runtime-main.637ab43b.js",
+    "runtime-main.js.map": "/abstract-vulnerable-app/static/js/runtime-main.637ab43b.js.map",
+    "static/js/2.1160c8f4.chunk.js": "/abstract-vulnerable-app/static/js/2.1160c8f4.chunk.js",
+    "static/js/2.1160c8f4.chunk.js.map": "/abstract-vulnerable-app/static/js/2.1160c8f4.chunk.js.map",
+    "index.html": "/abstract-vulnerable-app/index.html",
+    "static/css/main.5e117aac.chunk.css.map": "/abstract-vulnerable-app/static/css/main.5e117aac.chunk.css.map",
+    "static/js/2.1160c8f4.chunk.js.LICENSE.txt": "/abstract-vulnerable-app/static/js/2.1160c8f4.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.637ab43b.js",
+    "static/js/2.1160c8f4.chunk.js",
+    "static/css/main.5e117aac.chunk.css",
+    "static/js/main.2a79fade.chunk.js"
+  ]
+}
