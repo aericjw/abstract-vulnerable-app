@@ -20,3 +20,4 @@ This project is in progress so use `npm run dev` from the root directory to conc
 | Sam Howard |
 | Nathan Bell |
 | Joe Riva |
+| Ethan Myers|
