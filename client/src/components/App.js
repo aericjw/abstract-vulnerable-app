@@ -214,7 +214,7 @@ class App extends React.Component {
   render_title(){
     return (
       <div className="p-2 bg-green-400 text-center text-black rounded-t-xl">
-        <p>Vulnerable Banking App</p>
+        <p>Cyber ReaDec</p>
       </div>
     )
   }
