@@ -6,8 +6,9 @@ React Client \
 Node.js Server
 
 ## To-Do List:
-- [x] End game when run out of time
-- [x] Make app look better with a CSS framework
+- [ ] Create a functional database
+- [ ] time function
+- [ ] make XXS ordered instead of random
 - [ ] Add settings to change probability
 - [ ] Add instructions that displays at the beginning
 
@@ -16,8 +17,7 @@ This project is in progress so use `npm run dev` from the root directory to conc
 
 | Contributers |
 | ------------ |
-| Aeric Walls |
-| Sam Howard |
 | Nathan Bell |
-| Joe Riva |
 | Ethan Myers|
+| Sam Howard |
+
