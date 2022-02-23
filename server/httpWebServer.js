@@ -28,14 +28,14 @@ app.get('/api/sql_inject', (req, res) => {
 });
 
 app.get('/api/xss', (req, res) => {
-    randomIndex = Math.floor(Math.random() * 17)
+    index = 0;
     db.serialize(() => {
         db.all(`SELECT * FROM accounts`, (err, results) => {
             if(err){
                 return console.error(err.message);
             }
-            console.log(JSON.stringify(results[randomIndex]))
-            res.send(JSON.stringify(results[randomIndex]))
+            console.log(JSON.stringify(results[index]))
+            res.send(JSON.stringify(results[index]))
         });
     });
 })
@@ -64,10 +64,10 @@ app.put('/api/steal', (req, res) => {
                 }
             }
             else if (attackType === "XSS"){
-                randomIndex = Math.floor(Math.random() * 17)
+                index++
                 response = {
                     "currentAccount": results[account],
-                    "nextAccount": results[randomIndex]
+                    "nextAccount": results[index]
                 }
             }
             console.log(JSON.stringify(response))
@@ -98,9 +98,9 @@ app.put('/api/next', (req, res) => {
                 }
             }
             else if (attackType === "XSS"){
-                randomIndex = Math.floor(Math.random() * 17)
+                index++;
                 response = {
-                    "nextAccount": results[randomIndex]
+                    "nextAccount": results[index]
                 }
             }
             console.log(JSON.stringify(response))
